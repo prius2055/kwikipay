@@ -1,0 +1,450 @@
+/* Thank You Overlay */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+
+
+/* Thank You Page Container */
+.thank-you-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+/* Thank You Card */
+.thank-you-card {
+  background: white;
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  padding: 50px 40px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.6s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Animation */
+.success-animation {
+  position: relative;
+  margin: 0 auto 40px;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-circle {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.success-checkmark {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: 0;
+  left: 0;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: rgba(255, 255, 255, 0.3);
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: white;
+  stroke-width: 4;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Confetti Animation */
+.confetti-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #667eea;
+  top: -10px;
+  opacity: 0;
+  animation: confetti-fall 3s linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotateZ(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotateZ(720deg);
+    opacity: 0;
+  }
+}
+
+/* Thank You Content */
+.thank-you-content {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.thank-you-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 15px 0;
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.thank-you-message {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Transaction Details */
+.transaction-details {
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  animation: fadeIn 0.6s ease-out 0.5s both;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row.highlight {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  margin: 0 -15px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: none;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 15px;
+  color: #1f2937;
+  font-weight: 600;
+  text-align: right;
+}
+
+.detail-value.reference {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #667eea;
+  background: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status-row {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.status-badge.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  animation: fadeIn 0.6s ease-out 0.6s both;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-outline {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.btn-outline {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-outline:hover {
+  background: #f0f4ff;
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Footer */
+.thank-you-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #f3f4f6;
+  animation: fadeIn 0.6s ease-out 0.7s both;
+}
+
+.thank-you-footer p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.support-text {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.link {
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #764ba2;
+}
+
+/* Print Styles */
+@media print {
+  .thank-you-container {
+    background: white;
+    padding: 0;
+  }
+
+  .thank-you-card {
+    box-shadow: none;
+    max-width: 100%;
+  }
+
+  .action-buttons {
+    display: none;
+  }
+
+  .confetti-particle {
+    display: none;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .thank-you-card {
+    padding: 40px 25px;
+  }
+
+  .thank-you-title {
+    font-size: 32px;
+  }
+
+  .thank-you-message {
+    font-size: 16px;
+  }
+
+  .success-circle,
+  .success-checkmark {
+    width: 100px;
+    height: 100px;
+  }
+
+  .transaction-details {
+    padding: 20px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .detail-value {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .thank-you-container {
+    padding: 15px;
+  }
+
+  .thank-you-card {
+    padding: 30px 20px;
+    border-radius: 16px;
+  }
+
+  .thank-you-title {
+    font-size: 28px;
+  }
+
+  .transaction-details {
+    padding: 15px;
+  }
+
+  .detail-label,
+  .detail-value {
+    font-size: 13px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

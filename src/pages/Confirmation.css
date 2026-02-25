@@ -1,0 +1,258 @@
+/* Confirmation Page Styles */
+
+.confirmation-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.confirmation-card {
+  background: white;
+  border-radius: 20px;
+  padding: 60px 40px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Icon Animation */
+.success-icon {
+  margin: 0 auto 30px;
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #4bb543;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0 0 0 #4bb543;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #4bb543;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0 0 0 40px #4bb543;
+  }
+}
+
+/* Title */
+.confirmation-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+/* Message */
+.confirmation-message {
+  margin-bottom: 40px;
+  animation: fadeIn 0.6s ease-out 0.4s both;
+}
+
+.message-primary {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.message-secondary {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Details */
+.confirmation-details {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 35px;
+  animation: fadeIn 0.6s ease-out 0.5s both;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 15px;
+  color: #555;
+}
+
+.detail-item:first-child {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-icon {
+  width: 24px;
+  height: 24px;
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  animation: fadeIn 0.6s ease-out 0.6s both;
+}
+
+.btn-primary-confirmation,
+.btn-secondary {
+  padding: 16px 32px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  width: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+  background: #f8f9ff;
+  transform: translateY(-2px);
+}
+
+/* Help Text */
+.help-text {
+  animation: fadeIn 0.6s ease-out 0.7s both;
+}
+
+.help-text p {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.resend-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.resend-link:hover {
+  color: #764ba2;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .confirmation-card {
+    padding: 40px 25px;
+  }
+
+  .confirmation-title {
+    font-size: 26px;
+  }
+
+  .message-primary {
+    font-size: 16px;
+  }
+
+  .message-secondary {
+    font-size: 14px;
+  }
+
+  .success-icon,
+  .checkmark {
+    width: 60px;
+    height: 60px;
+  }
+}
