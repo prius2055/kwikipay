@@ -8,16 +8,16 @@ import Logo from "../img/logo.png";
 import "./../pages/Dashboard.css";
 
 const Header = () => {
-  const { logout, loggingOut } = useAuth();
+  const { loggingOut } = useAuth();
   const { mobileMenu, toggleMobileMenu } = useMenu();
 
   const onMobileMenu = () => {
     toggleMobileMenu();
   };
 
-  const closeMobileMenu = () => {
-    if (mobileMenu) toggleMobileMenu();
-  };
+  // const closeMobileMenu = () => {
+  //   if (mobileMenu) toggleMobileMenu();
+  // };
 
   if (loggingOut) {
     return (
