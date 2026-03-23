@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/authContext";
+import { useAuth } from "../context/authContext";
+import { Eye, EyeOff } from "lucide-react";
 
 import "./Auth.css";
 
@@ -8,6 +9,7 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -105,7 +107,7 @@ const Register = () => {
 
       setError(
         err.message ||
-          "Something went wrong. Please check your connection and try again."
+          "Something went wrong. Please check your connection and try again.",
       );
     } finally {
       console.log("🧹 Registration cleanup complete");
@@ -124,7 +126,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card register-card">
-        <h1 className="auth-brand">GEODNATECH</h1>
+        <h1 className="auth-brand">Subadex</h1>
         <h2 className="auth-title">Sign Up</h2>
 
         <div className="auth-form">
@@ -232,29 +234,49 @@ const Register = () => {
 
           <div className="form-group">
             <label htmlFor="password">Password*</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Create a password"
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
             <small className="form-hint">
-              min_length: 8 mix characters [e.g., musa1234]
+              Minimum length: 8 mix characters [e.g., musa1234]
             </small>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password*</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Enter same password as before"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Enter same password as before"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+              {/* <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button> */}
+            </div>
           </div>
 
           <div className="form-group checkbox-group">

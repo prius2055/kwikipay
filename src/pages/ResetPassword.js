@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/authContext";
-import SideBar from "../components/SideBar";
+import { useAuth } from "../context/authContext";
 import Header from "../components/Header";
 
 import "./ResetPassword.css";
@@ -71,10 +70,7 @@ const ResetPassword = () => {
       console.log("📡 Sending password reset request...");
 
       // 🚀 Call backend
-      const result = await resetPassword({
-        password: password,
-        token,
-      });
+      const result = await resetPassword(password, token);
 
       console.log("=== RESET PASSWORD RESULT ===");
       console.log("Result:", result);
@@ -107,7 +103,6 @@ const ResetPassword = () => {
   if (success) {
     return (
       <div className="reset-password-page">
-        <SideBar />
         <div className="reset-password-card">
           <Header />
           <div className="reset-password-body">

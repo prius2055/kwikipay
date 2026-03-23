@@ -1,0 +1,74 @@
+.epin-page {
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== Controls ===== */
+.epin-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.epin-controls button {
+  padding: 8px 14px;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.print-btn {
+  background: #198754;
+}
+
+/* ===== Table ===== */
+.epin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.epin-table th,
+.epin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+/* ===== PRINT DESIGN ===== */
+.print-area {
+  display: none;
+}
+
+/* ===============================
+   PRINT MODE
+=============================== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .print-card {
+    border: 1px dashed #000;
+    padding: 15px;
+    text-align: center;
+    height: 120px;
+  }
+
+  .print-pin {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 10px 0;
+  }
+
+  .print-note {
+    font-size: 12px;
+  }
+}

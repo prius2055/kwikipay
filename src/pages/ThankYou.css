@@ -16,15 +16,12 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-
-
-
 /* Thank You Page Container */
 .thank-you-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
-   position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -38,7 +35,6 @@
   padding: 20px;
   animation: fadeIn 0.3s ease-out;
 }
-
 
 /* Thank You Card */
 .thank-you-card {
@@ -89,7 +85,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -207,7 +204,11 @@
 }
 
 .detail-row.highlight {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1) 0%,
+    rgba(118, 75, 162, 0.1) 100%
+  );
   margin: 0 -15px;
   padding: 12px 15px;
   border-radius: 10px;
@@ -228,7 +229,7 @@
 }
 
 .detail-value.reference {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 13px;
   color: #667eea;
   background: white;
@@ -293,11 +294,11 @@
   gap: 10px;
 }
 
-.btn-primary {
+/* .btn-primary {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
+} */
 
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -313,16 +314,6 @@
 .btn-secondary:hover {
   background: #e5e7eb;
   border-color: #d1d5db;
-}
-
-.btn-outline {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
-}
-
-.btn-outline:hover {
-  background: #f0f4ff;
 }
 
 .btn-primary:active,

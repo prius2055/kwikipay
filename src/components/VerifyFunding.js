@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useWallet } from "./walletContext";
+import { useWallet } from "../context/walletContext";
 import { useNavigate, useSearchParams } from "react-router";
 
 const VerifyFunding = () => {

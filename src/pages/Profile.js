@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useAuth } from "../components/authContext";
-import { useWallet } from "../components/walletContext";
+import { useAuth } from "../context/authContext";
+import { useWallet } from "../context/walletContext";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import { useNavigate } from "react-router";

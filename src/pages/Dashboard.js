@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
-import { useAuth } from "./authContext";
-import { useWallet } from "./walletContext";
-import SideBar from "./SideBar";
-import Header from "./Header";
-import UpgradeModal from "./UpgradeModal";
-import ServiceTable from "./ServiceTable";
+import { useAuth } from "../context/authContext";
+import { useWallet } from "../context/walletContext";
+import SideBar from "../components/SideBar";
+import Header from "../components/Header";
+import UpgradeModal from "../components/UpgradeModal";
+import ServiceTable from "../components/ServiceTable";
 
 import "./Dashboard2.css";
 
@@ -24,6 +24,8 @@ const Dashboard = () => {
     totalSpent,
     upgradeToReseller,
   } = useWallet();
+
+  console.log(totalSpent);
 
   const navigate = useNavigate();
 
@@ -208,19 +210,6 @@ const Dashboard = () => {
           {user.role === "user" && (
             <div className="dashboard-hero">
               <div className="hero-content">
-                {/* Badge */}
-                <div className="hero-badge">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
-                  <span>Limited Time Offer</span>
-                </div>
-
                 {/* Heading */}
                 <h1 className="hero-title">
                   Ready to
@@ -286,11 +275,14 @@ const Dashboard = () => {
                       </svg>
                       Upgrade to Reseller Now
                     </span>
-                    <span className="button-shine"></span>
+                    {/* <span className="button-shine"></span> */}
+                    <p className="cta-subtext">
+                      Only ₦1,000 one-time fee • Instant activation
+                    </p>
                   </button>
-                  <p className="cta-subtext">
+                  {/* <p className="cta-subtext">
                     Only ₦1,000 one-time fee • Instant activation
-                  </p>
+                  </p> */}
                 </div>
               </div>
 
@@ -352,20 +344,10 @@ const Dashboard = () => {
             ))}
           </div>
           <div className="info-cards-row">
-            <div
-              className="info-card"
-              style={{
-                background: "linear-gradient(135deg, #3b9fd8 0%, #2980b9 100%)",
-              }}
-            >
+            <div className="info-card">
               <h3>Notifications</h3>
             </div>
-            <div
-              className="info-card"
-              style={{
-                background: "linear-gradient(135deg, #3b9fd8 0%, #2980b9 100%)",
-              }}
-            >
+            <div className="info-card">
               <h3>FAQs:</h3>
               <p>
                 Please go through them to have a better knowledge of this
@@ -373,12 +355,7 @@ const Dashboard = () => {
               </p>
               <button className="info-card-btn">❓ FAQs</button>
             </div>
-            <div
-              className="info-card"
-              style={{
-                background: "linear-gradient(135deg, #3b9fd8 0%, #2980b9 100%)",
-              }}
-            >
+            <div className="info-card">
               <h3>Support Team:</h3>
               <p>
                 Have anything to say to us? Please contact our Support Team on

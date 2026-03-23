@@ -1,10 +1,16 @@
 import React from "react";
-import "./ServiceTable.css";
+import { Pencil } from "lucide-react";
+import { useNavigate, useLocation } from "react-router";
+
+import "./ServiceTable2.css";
 
 const ServiceTable = ({ dataPlans, role, loading }) => {
-  const isAdmin = role === "admin";
+  const isMarketer = role === "marketer";
   const isReseller = role === "reseller";
   const isUser = role === "user";
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const formatMoney = (amount) => `₦${Number(amount).toLocaleString("en-NG")}`;
 
@@ -53,7 +59,7 @@ const ServiceTable = ({ dataPlans, role, loading }) => {
               {/* Network Header Row */}
               <tr>
                 <th
-                  colSpan={isAdmin ? "7" : isReseller ? "6" : "4"}
+                  colSpan={isMarketer ? "8" : isReseller ? "6" : "4"}
                   className="network-header"
                 >
                   {network} Data Plans
@@ -65,22 +71,25 @@ const ServiceTable = ({ dataPlans, role, loading }) => {
                 <th>Plan</th>
                 <th>Validity</th>
 
-                {/* ADMIN OR RESELLER ONLY */}
-                {isAdmin && <th>Cost Price</th>}
-                {(isAdmin || isReseller) && <th>Reseller Price</th>}
+                {/* marketer OR RESELLER ONLY */}
+                {isMarketer && <th>Cost Price</th>}
+                {(isMarketer || isReseller) && <th>Reseller Price</th>}
                 {isUser ? <th>Price</th> : <th>Selling Price</th>}
 
-                {/* ADMIN OR RESELLER ONLY */}
-                {(isAdmin || isReseller) && <th>Profit</th>}
+                {/* marketer OR RESELLER ONLY */}
+                {(isMarketer || isReseller) && <th>Profit</th>}
 
                 <th>Status</th>
+                {isMarketer && pathname.endsWith("/marketer/data") && (
+                  <th>Action</th>
+                )}
               </tr>
             </thead>
 
             {/* Table Body */}
             <tbody>
               {services.map((service) => {
-                const profit = isAdmin
+                const profit = isMarketer
                   ? service.sellingPrice - service.providerPrice
                   : isReseller
                     ? service.sellingPrice - service.resellerPrice
@@ -94,13 +103,13 @@ const ServiceTable = ({ dataPlans, role, loading }) => {
                     {/* Validity */}
                     <td className="validity">{service.validity}</td>
 
-                    {/* Provider  Price (ADMIN ONLY) */}
-                    {isAdmin && (
+                    {/* Provider  Price (marketer ONLY) */}
+                    {isMarketer && (
                       <td className="reseller-price">
                         {formatMoney(service.providerPrice)}
                       </td>
                     )}
-                    {(isAdmin || isReseller) && (
+                    {(isMarketer || isReseller) && (
                       <td className="reseller-price">
                         {formatMoney(service.resellerPrice)}
                       </td>
@@ -112,8 +121,8 @@ const ServiceTable = ({ dataPlans, role, loading }) => {
                       <strong>{formatMoney(service.sellingPrice)}</strong>
                     </td>
 
-                    {/* Profit (ADMIN AND RESELLER ONLY) */}
-                    {(isAdmin || isReseller) && (
+                    {/* Profit (marketer AND RESELLER ONLY) */}
+                    {(isMarketer || isReseller) && (
                       <td className="profit">{formatMoney(profit)}</td>
                     )}
 
@@ -127,6 +136,24 @@ const ServiceTable = ({ dataPlans, role, loading }) => {
                         {service.isActive ? "Available" : "Not Available"}
                       </span>
                     </td>
+                    {/* marketer ONLY */}
+                    {isMarketer && pathname.endsWith("/marketer/data") && (
+                      <td>
+                        <div className="service-management-action-buttons">
+                          <button
+                            className="btn-icon btn-edit"
+                            title="Edit"
+                            onClick={() =>
+                              navigate(`/marketer/data/${service._id}/edit`, {
+                                state: service,
+                              })
+                            }
+                          >
+                            ✏️
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

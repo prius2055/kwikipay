@@ -1,5 +1,5 @@
 {
-  "name": "geotech",
+  "name": "subadex",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +22,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:prince": "env-cmd -f .env.prince react-scripts start",
+    "start:emeka": "env-cmd -f .env.emeka react-scripts start",
+    "start:fastsub": "env-cmd -f .env.fastsub react-scripts start",
+    "build:prince": "env-cmd -f .env.prince react-scripts build",
+    "build:emeka": "env-cmd -f .env.emeka react-scripts build",
+    "build:fastsub": "env-cmd -f .env.fastsub react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -41,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^11.0.0"
   }
 }

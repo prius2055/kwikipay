@@ -1,14 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL, getHeaders } from "../api/api";
+
 const AuthContext = createContext();
-
-const BASE_URL = `http://localhost:5000/api/v1`;
-
-// const BASE_URL = `https://vtu-backend-wjn6.onrender.com/api/v1`;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,9 +57,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await fetch(`${BASE_URL}/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(false), // false = no auth (public route)
         body: JSON.stringify(userData),
       });
 
@@ -99,9 +96,7 @@ export const AuthProvider = ({ children }) => {
 
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(false),
         body: JSON.stringify({ username, password }),
       });
 
@@ -124,79 +119,87 @@ export const AuthProvider = ({ children }) => {
 
   const requestPasswordReset = async (email) => {
     try {
-      // console.log("🔵 Logging in...");
-
       const response = await fetch(`${BASE_URL}/password/reset`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(false),
         body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.status === "success") {
-        // console.log("✅ Reset successful");
-        localStorage.setItem("token", response.data.token);
-        setUser(data.user);
-        return { status: true, user: data.user };
+        // ✅ No token or user returned here — only a success message
+        return { status: true, message: data.message };
       } else {
-        // console.error("❌ Password reset failed:", data.message);
-        return { status: false, message: data.message || "Reset failed" };
+        return {
+          status: false,
+          message: data.message || "Reset failed. Please try again.",
+        };
       }
     } catch (error) {
-      // console.error("❌ Password reset error:", error);
-      return { status: false, message: error.message };
+      return {
+        status: false,
+        message:
+          error.message || "Network error. Please check your connection.",
+      };
     }
   };
 
   const resetPassword = async (password, token) => {
     try {
-      // console.log("🔵 Logging in...");
-
       const response = await fetch(`${BASE_URL}/password/reset/${token}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password }),
+        headers: getHeaders(false),
+        body: JSON.stringify({ password, confirmPassword: password }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.status === "success") {
-        // console.log("✅ Reset successful");
-        localStorage.setItem("token", response.data.token);
-        setUser(data.user);
-        return { status: true, user: data.user };
+        // ✅ data.token not response.data.token
+        const authToken = data.token;
+
+        if (authToken) {
+          localStorage.setItem("token", authToken);
+        }
+
+        // ✅ user is nested in data.data.user from createSendToken
+        const user = data.data?.user || data.user || null;
+        if (user) setUser(user);
+
+        return { status: true, user };
       } else {
-        // console.error("❌ Password reset failed:", data.message);
-        return { status: false, message: data.message || "Reset failed" };
+        return {
+          status: false,
+          message: data.message || "Reset failed. Please try again.",
+        };
       }
     } catch (error) {
-      // console.error("❌ Password reset error:", error);
-      return { status: false, message: error.message };
+      return {
+        status: false,
+        message:
+          error.message || "Network error. Please check your connection.",
+      };
     }
   };
 
   const logout = () => {
     console.log("🔵 Logging out...");
+    setLoggingOut(true); // ✅ trigger overlay
 
-    try {
-      // Clear auth storage
-      localStorage.removeItem("token");
-
-      // Reset auth state
-      setUser(null);
-
-      console.log("✅ Logout successful");
-    } catch (error) {
-      console.error("❌ Logout error:", error);
-    } finally {
-      // Always redirect
-      navigate("/", { replace: true });
-    }
+    setTimeout(() => {
+      try {
+        localStorage.removeItem("token");
+        setUser(null);
+        setLoggingOut(false); // ✅ reset before navigating
+        console.log("✅ Logout successful");
+      } catch (error) {
+        console.error("❌ Logout error:", error);
+        setLoggingOut(false); // ✅ reset before navigating
+      } finally {
+        navigate("/", { replace: true });
+      }
+    }, 1500); // ✅ let animation play before clearing state
   };
 
   const isAuthenticated = () => {
@@ -212,6 +215,7 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         requestPasswordReset,
         logout,
+        loggingOut,
         isAuthenticated,
         loading,
       }}

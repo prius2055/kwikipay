@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import axios from "axios";
+import { BASE_URL, getHeaders } from "../api/api";
 import "./EditDataPlanService.css";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
@@ -17,12 +17,13 @@ const EditDataPlanService = () => {
   // console.log("plan to edit", planToEdit);
 
   const [formData, setFormData] = useState({
-    price: "",
+    resellerPrice: "",
+    sellingPrice: "",
     status: "",
   });
 
   // const BASE_URL = `http://localhost:5000/api/v1`;
-  const BASE_URL = `https://vtu-backend-wjn6.onrender.com/api/v1`;
+  // const BASE_URL = `https://vtu-backend-wjn6.onrender.com/api/v1`;
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -31,16 +32,14 @@ const EditDataPlanService = () => {
       setError(null);
 
       try {
-        const response = await fetch(`${BASE_URL}/admin/data`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await fetch(`${BASE_URL}/vtu/data-plans`, {
+          method: "GET",
+          headers: getHeaders(),
         });
 
         const result = await response.json();
 
-        // console.log("data plans", result);
+        console.log("data plans", result);
 
         if (result.status === "success") {
           setLoading(false);
@@ -71,7 +70,8 @@ const EditDataPlanService = () => {
   useEffect(() => {
     if (planToEdit) {
       setFormData({
-        price: planToEdit.sellingPrice ?? "",
+        resellerPrice: planToEdit.resellerPrice ?? "",
+        sellingPrice: planToEdit.sellingPrice ?? "",
         status: planToEdit.isActive ? "true" : "false",
       });
     }
@@ -85,45 +85,78 @@ const EditDataPlanService = () => {
     }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const payload = {
+  //     newResellerPrice: Number(formData.resellerPrice),
+  //     newSellingPrice: Number(formData.sellingPrice),
+  //     newStatus: formData.status,
+  //   };
+
+  //   console.log(payload);
+  //   setSaving(true);
+  //   setError(null);
+
+  //   const token = localStorage.getItem("token");
+
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/marketer/plans/${id}/price`, {
+  //       method: "PATCH",
+  //       headers: getHeaders(),
+  //       body: JSON.stringify(payload),
+  //     });
+  //     const result = await response.json();
+
+  //     console.log(result);
+
+  //     if (result.status === "success") {
+  //       setLoading(false);
+
+  //       navigate("/admin/data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating service:", error);
+  //     setError(error.response?.data?.message || "Failed to update service");
+  //     setSaving(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const payload = {
-      newSellingPrice: Number(formData.price),
-      newStatus: formData.status,
-    };
-
-    console.log(payload);
     setSaving(true);
     setError(null);
 
-    const token = localStorage.getItem("token");
+    const payload = {
+      newResellerPrice: Number(formData.resellerPrice), // ✅ fixed typo
+      newSellingPrice: Number(formData.sellingPrice),
+      newStatus: formData.status,
+    };
 
     try {
-      const response = await fetch(`${BASE_URL}/admin/data/${id}`, {
+      const response = await fetch(`${BASE_URL}/marketer/plans/${id}/price`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getHeaders(),
         body: JSON.stringify(payload),
       });
+
       const result = await response.json();
 
-      console.log(result);
-
-      if (result.status === "success") {
-        setLoading(false);
-
-        navigate("/admin/data");
+      if (!response.ok || result.status !== "success") {
+        // ✅ Show server error message in UI
+        setError(result.message || "Failed to update plan.");
+        setSaving(false);
+        return;
       }
+
+      navigate("/marketer/data"); // ✅ navigate to correct route
     } catch (error) {
       console.error("Error updating service:", error);
-      setError(error.response?.data?.message || "Failed to update service");
+      setError("Network error. Please try again.");
       setSaving(false);
     }
   };
-
+  
   return (
     <div className="edit-container">
       <SideBar />
@@ -163,6 +196,7 @@ const EditDataPlanService = () => {
                       <th>Plan</th>
                       <th>Validity</th>
                       <th>Cost Price</th>
+                      <th>Reseller Price</th>
                       <th>Selling Price</th>
                       <th>Profit</th>
                       <th>Status</th>
@@ -176,6 +210,9 @@ const EditDataPlanService = () => {
                       <td>{planToEdit.validity}</td>
                       <td>
                         ₦{planToEdit.providerPrice.toLocaleString("en-NG")}
+                      </td>
+                      <td>
+                        ₦{planToEdit.resellerPrice.toLocaleString("en-NG")}
                       </td>
                       <td>
                         ₦{planToEdit.sellingPrice.toLocaleString("en-NG")}
@@ -196,14 +233,36 @@ const EditDataPlanService = () => {
                 {/* FORM */}
                 <form onSubmit={handleSubmit} className="edit-service-form">
                   <div className="form-group">
-                    <label htmlFor="price" className="form-label required">
+                    <label
+                      htmlFor="resellerPrice"
+                      className="form-label required"
+                    >
+                      New Reseller Price (₦)
+                    </label>
+                    <input
+                      type="number"
+                      id="resellerPrice"
+                      name="resellerPrice"
+                      value={formData.resellerPrice}
+                      onChange={handleChange}
+                      min="0"
+                      step="0.01"
+                      className="form-input"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label
+                      htmlFor="sellingPrice"
+                      className="form-label required"
+                    >
                       New Selling Price (₦)
                     </label>
                     <input
                       type="number"
                       id="price"
-                      name="price"
-                      value={formData.price}
+                      name="sellingPrice"
+                      value={formData.sellingPrice}
                       onChange={handleChange}
                       min="0"
                       step="0.01"

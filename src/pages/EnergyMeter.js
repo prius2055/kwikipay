@@ -1,34 +1,40 @@
 import React, { useState } from "react";
-import SideBar from "./SideBar";
-import Header from "./Header";
-import { useWallet } from "./walletContext";
+import SideBar from "../components/SideBar";
+import Header from "../components/Header";
+import { useWallet } from "../context/walletContext";
+import { capitalize } from "../utils/helperFunctions";
 
 import "./BuyData.css";
 
-const CABLE_PLAN_MAP = {
-  34: "GOtv Smallie - Monthly= N1900",
-  16: "GOtv Jinja = N3900",
-  35: " GOtv Smallie - Quarterly = N5100",
-  17: "GOtv Jolli = N5800",
-  2: "GOtv Max = N8500",
-  47: "Gotv-supa monthly = N11400",
-  36: "GOtv Smallie - Yearly = N15000",
+const DISCO_NAME_MAP = {
+  "ikeja-electric": 1,
+  "eko-electric": 2,
+  "abuja-electric": 3,
+  "kano-electric": 4,
+  "enugu-electric": 5,
+  "portharcourt-electric": 6,
+  "ibadan-electric": 7,
+  "kaduna-electric": 8,
+  "jos-electric": 9,
+  "benin-electric": 10,
+  "yola-electric": 11,
 };
 
-const CableTv = () => {
+const EnergyMeter = () => {
   const [formData, setFormData] = useState({
-    cableName: "",
-    iucNumber: "",
-    cablePlan: "",
+    discoName: "",
+    meterNumber: "",
+    meterType: "",
     customerPhone: "",
     amount: "",
     customerName: "",
+    customerAddress: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { cableValidation, cableRecharge } = useWallet();
+  const { meterValidation, meterRecharge } = useWallet();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,13 +49,13 @@ const CableTv = () => {
     setError("");
 
     // Validation
-    if (!formData.cableName) {
-      setError("Please select a cable tv provider");
+    if (!formData.discoName) {
+      setError("Please select a disco");
       return;
     }
 
-    if (!formData.cablePlan) {
-      setError("Please select a cable plan");
+    if (!formData.meterType) {
+      setError("Please select a meter type");
       return;
     }
 
@@ -58,8 +64,8 @@ const CableTv = () => {
       return;
     }
 
-    if (!formData.iucNumber) {
-      setError("Please enter IUC number");
+    if (!formData.meterNumber) {
+      setError("Please enter meter number");
       return;
     }
 
@@ -69,15 +75,18 @@ const CableTv = () => {
     }
 
     const payload = {
-      cableName: formData.cableName,
-      iucNumber: formData.iucNumber,
+      disco_name: formData.discoName,
+      amount: Number(formData.amount),
+      meter_number: formData.meterNumber,
+      MeterType: formData.meterType,
+      customer_number: formData.customerPhone,
     };
 
     console.log(payload);
 
     setLoading(true);
 
-    const result = await cableValidation(payload);
+    const result = await meterValidation(payload);
 
     console.log(result);
 
@@ -87,6 +96,7 @@ const CableTv = () => {
       setFormData((prev) => ({
         ...prev,
         customerName: result.data.name,
+        customerAddress: result.data.address,
       }));
     } else {
       return;
@@ -98,35 +108,50 @@ const CableTv = () => {
     setError("");
 
     // Validation
-    if (
-      !formData.cableName ||
-      !formData.iucNumber ||
-      !formData.cablePlan ||
-      !formData.amount
-    ) {
-      setError("Please a valid IUC number");
+    if (!formData.discoName) {
+      setError("Please select a disco");
       return;
     }
 
-    if (formData.amount < 0) {
-      setError("Please enter a valid amount");
+    if (!formData.meterType) {
+      setError("Please select a meter type");
+      return;
+    }
+
+    if (!formData.customerPhone) {
+      setError("Please enter customer phone number");
+      return;
+    }
+
+    if (!formData.meterNumber) {
+      setError("Please enter meter number");
+      return;
+    }
+    if (!formData.customerName || !formData.customerAddress) {
+      setError("Please validate meter number first");
+      return;
+    }
+
+    if (!formData.amount || formData.amount < 500) {
+      setError("Please enter a valid amount (minimum ₦500)");
       return;
     }
 
     const payload = {
-      cablename: formData.cableName,
-      cableplan: formData.cablePlan,
-      smart_card_number: formData.iucNumber,
+      disco_name: DISCO_NAME_MAP[formData.discoName],
       amount: Number(formData.amount),
-      name: formData.customerName,
-      customerNumber: formData.customerPhone,
+      meter_number: formData.meterNumber,
+      MeterType: capitalize(formData.meterType),
+      customer_number: formData.customerPhone,
+      meter_name: formData.customerName,
+      meter_address: formData.customerAddress,
     };
 
     console.log(payload);
 
     setLoading(true);
 
-    const result = await cableRecharge(payload);
+    const result = await meterRecharge(payload);
 
     console.log(result);
 
@@ -134,14 +159,17 @@ const CableTv = () => {
       setLoading(false);
       setError(false);
       setFormData({
-        cableName: "",
-        iucNumber: "",
-        cablePlan: "",
+        discoName: "",
+        meterNumber: "",
+        meterType: "",
         customerPhone: "",
         amount: "",
         customerName: "",
+        customerAddress: "",
       });
     } else {
+      setLoading(false);
+      setError(result.message);
       return;
     }
   };
@@ -152,8 +180,8 @@ const CableTv = () => {
       <div className="buy-data-content">
         <Header />
         <div className="popup-container">
-          <h2 className="popup-title">Cable Tv Subscription</h2>
-          {!formData.customerName && (
+          <h2 className="popup-title">Electricity Bill Payment</h2>
+          {!formData.customerName && !formData.customerAddress && (
             <form onSubmit={handleValidate} className="popup-form">
               <div className="form-row">
                 {/* Left Column - Form */}
@@ -161,67 +189,71 @@ const CableTv = () => {
                 <div className="form-column">
                   {error && <div className="form-error">{error}</div>}
 
-                  {/* Cable Name */}
+                  {/* Disco */}
                   <div className="form-group">
-                    <label htmlFor="cableName">
-                      Cable Name<span className="required">*</span>
+                    <label htmlFor="discoName">
+                      Disco<span className="required">*</span>
                     </label>
                     <select
-                      id="cableName"
-                      name="cableName"
-                      value={formData.cableName}
+                      id="discoName"
+                      name="discoName"
+                      value={formData.discoName}
                       onChange={handleChange}
                       required
                     >
-                      <option value="">-- Cable Name --</option>
-                      <option value="GOTV">GOTV</option>
-                      <option value="DSTV">DSTV</option>
-                      <option value="STARTIMES">STARTIMES</option>
+                      <option value="">-- Select Disco --</option>
+                      <option value="ikeja-electric">Ikeja Electric</option>
+                      <option value="eko-electric">Eko Electric</option>
+                      <option value="abuja-electric">Abuja Electric</option>
+                      <option value="kano-electric">Kano Electric</option>
+                      <option value="enugu-electric">Enugu Electric</option>
+                      <option value="portharcourt-electric">
+                        Port Harcourt Electric
+                      </option>
+                      <option value="ibadan-electric">Ibadan Electric</option>
+                      <option value="kaduna-electric">Kaduna Electric</option>
+                      <option value="jos-electric">Jos Electric</option>
+                      <option value="benin-electric">Benin Electric</option>
+                      <option value="yola-electric">Yola Electric</option>
                     </select>
                   </div>
 
-                  {/* IUC Number */}
+                  {/* Meter Number */}
                   <div className="form-group">
-                    <label htmlFor="iucNumber">
-                      Smart Card number / IUC number
-                      <span className="required">*</span>
+                    <label htmlFor="meterNumber">
+                      Meter Number<span className="required">*</span>
                     </label>
                     <input
                       type="text"
-                      id="iucNumber"
-                      name="iucNumber"
-                      value={formData.iucNumber}
+                      id="meterNumber"
+                      name="meterNumber"
+                      value={formData.meterNumber}
                       onChange={handleChange}
-                      placeholder="456781111111"
+                      placeholder="0123456781111111"
                       required
                     />
                   </div>
 
-                  {/* Cable plan*/}
+                  {/* Meter Type */}
                   <div className="form-group">
-                    <label htmlFor="cablePlan">
-                      Cable Plan<span className="required">*</span>
+                    <label htmlFor="airtimeType">
+                      Meter Type<span className="required">*</span>
                     </label>
                     <select
-                      id="cablePlan"
-                      name="cablePlan"
-                      value={formData.cablePlan}
+                      id="meterType"
+                      name="meterType"
+                      value={formData.meterType}
                       onChange={handleChange}
-                      disabled={!formData.iucNumber}
+                      disabled={!formData.meterNumber}
                       required
                     >
-                      <option value="">---------</option>
-                      <option value="34">GOtv Smallie - Monthly = N1900</option>
-                      <option value="16">GOtv Jinja = N3900</option>
-                      <option value="35">
-                        GOtv Smallie - Quarterly = N5100
-                      </option>
-                      <option value="17">GOtv Jolli = N5800</option>
-                      <option value="2">GOtv Max = N8500</option>
-                      <option value="47">Gotv-supa monthly = N11400</option>
-                      <option value="36">GOtv Smallie - Yearly = N15000</option>
+                      <option value="">-- Select Meter Type --</option>
+                      <option value="prepaid">PREPAID</option>
+                      <option value="postpaid">POSTPAID</option>
                     </select>
-                    <small className="form-hint">Select Cable Plan</small>
+                    <small className="form-hint">
+                      Select Meter Type: PREPAID or POSTPAID
+                    </small>
                   </div>
 
                   {/* Display Customer Name and Address if available */}
@@ -237,7 +269,8 @@ const CableTv = () => {
                       name="amount"
                       value={formData.amount}
                       onChange={handleChange}
-                      placeholder="Enter Amount associated with the cable plan selected"
+                      placeholder="Minimum of ₦500"
+                      min={500}
                     />
                   </div>
 
@@ -262,31 +295,22 @@ const CableTv = () => {
                   <button
                     type="submit"
                     className="btn-buy-now"
-                    disabled={loading || !formData.iucNumber}
+                    disabled={loading || !formData.meterNumber}
                   >
-                    {loading ? "Processing..." : "Validate IUC Number"}
+                    {loading ? "Processing..." : "Validate Meter Number"}
                   </button>
                 </div>
                 <div className="info-column">
-                  <h3 className="info-title">Customer Care Numbers:</h3>
+                  <h3 className="info-title">How To Recharge Meter:</h3>
                   <div className="info-cards">
                     <div className="info-card mtn">
-                      <strong>DSTV/GOtv Customers Care Numbers</strong>
+                      <strong>Enter the token sent to the phone number</strong>
                     </div>
                     <div className="info-card mtn">
-                      <strong>01-2703232, 08039003788</strong>
+                      <strong>Press Enter on the Keypad</strong>
                     </div>
                     <div className="info-card mtn">
-                      <strong>GOTV/DSTV Toll Free Lines</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>08149860333, 07080630333, and 09090630333</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>STARTIMES Customers Care Numbers</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>094618888, 014618888</strong>
+                      <strong>Wait for the confirmation message</strong>
                     </div>
                   </div>
                 </div>
@@ -294,7 +318,7 @@ const CableTv = () => {
             </form>
           )}
 
-          {formData.customerName && (
+          {formData.customerName && formData.customerAddress && (
             <form onSubmit={handleSubmit} className="popup-form">
               <div className="form-row">
                 {/* Left Column - Form */}
@@ -306,25 +330,26 @@ const CableTv = () => {
                   <div className="form-group">
                     <div className="customer-info">
                       <p>
-                        <strong>Cable Name:</strong> {formData.cableName}
+                        <strong>Disco Name:</strong> {formData.discoName}
                       </p>
                       <p>
-                        <strong>Smartcard / IUC Number:</strong>{" "}
-                        {formData.iucNumber}
+                        <strong>Meter Number:</strong> {formData.meterNumber}
                       </p>
                       <p>
-                        <strong>Cable Plan:</strong>
-                        {CABLE_PLAN_MAP[formData.cablePlan]}
+                        <strong>Meter Type:</strong> {formData.meterType}
                       </p>
                       <p>
-                        <strong>Name on Decoder:</strong>{" "}
-                        {formData.customerName}
+                        <strong>Name on Meter:</strong> {formData.customerName}
+                      </p>
+                      <p>
+                        <strong>Address on Meter:</strong>{" "}
+                        {formData.customerAddress}
                       </p>
                       <p>
                         <strong>Amount To Pay:</strong> ₦{formData.amount}
                       </p>
                       <p>
-                        <strong>Customer Phone Number:</strong>
+                        <strong>Customer Phone Number:</strong>{" "}
                         {formData.customerPhone}
                       </p>
                     </div>
@@ -332,7 +357,7 @@ const CableTv = () => {
                   <button
                     type="submit"
                     className="btn-buy-now"
-                    disabled={loading || !formData.iucNumber}
+                    disabled={loading || !formData.meterNumber}
                   >
                     {loading
                       ? "Processing..."
@@ -341,25 +366,16 @@ const CableTv = () => {
                 </div>
 
                 <div className="info-column">
-                  <h3 className="info-title">Customer Care Numbers:</h3>
+                  <h3 className="info-title">How To Recharge Meter:</h3>
                   <div className="info-cards">
                     <div className="info-card mtn">
-                      <strong>DSTV/GOtv Customers Care Numbers</strong>
+                      <strong>Enter the token sent to the phone number</strong>
                     </div>
                     <div className="info-card mtn">
-                      <strong>01-2703232, 08039003788</strong>
+                      <strong>Press Enter on the Keypad</strong>
                     </div>
                     <div className="info-card mtn">
-                      <strong>GOTV/DSTV Toll Free Lines</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>08149860333, 07080630333, and 09090630333</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>STARTIMES Customers Care Numbers</strong>
-                    </div>
-                    <div className="info-card mtn">
-                      <strong>094618888, 014618888</strong>
+                      <strong>Wait for the confirmation message</strong>
                     </div>
                   </div>
                 </div>
@@ -372,4 +388,4 @@ const CableTv = () => {
   );
 };
 
-export default CableTv;
+export default EnergyMeter;

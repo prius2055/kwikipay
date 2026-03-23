@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useWallet } from "./walletContext";
-import SideBar from "./SideBar";
-import Header from "./Header";
+import { useWallet } from "../context/walletContext";
+import SideBar from "../components/SideBar";
+import Header from "../components/Header";
 import { formatCurrency } from "../utils/helperFunctions";
 import "./PaymentForm.css";
 

@@ -1,6 +1,4 @@
-/* auth.css */
-
-* {
+auth.css * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -46,7 +44,7 @@
   text-align: center;
   font-size: 1.75rem;
   font-weight: 800;
-  color: #2563eb;
+  color: #1a3a2a;
   margin-bottom: 0.5rem;
   letter-spacing: 1px;
 }
@@ -98,6 +96,110 @@
     box-shadow 0.15s ease-in-out;
 }
 
+/* ── Error Banner ── */
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #ef4444;
+  border-radius: 8px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.auth-error-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.auth-error-text {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #dc2626;
+  font-weight: 500;
+  text-align: left;
+}
+
+.auth-error-close {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+  opacity: 0.7;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.auth-error-close:hover {
+  opacity: 1;
+}
+
+/* ── Password Wrapper ── */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 2.75rem; /* room for the toggle button */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #94a3b8;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle:hover {
+  color: #475569;
+}
+
+/* ── Loading Screen ── */
+.auth-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.auth-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #1a3a2a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: #3393ff;
@@ -139,7 +241,7 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #2563eb;
+  accent-color: #1a3a2a;
 }
 
 .checkbox-label span {
@@ -148,7 +250,7 @@
 }
 
 .terms-link {
-  color: #2563eb;
+  color: #1a3a2a;
   text-decoration: none;
   font-weight: 500;
 }
@@ -165,7 +267,7 @@
 }
 
 .forgot-link {
-  color: #2563eb;
+  color: #1a3a2a;
   font-size: 0.875rem;
   text-decoration: none;
   font-weight: 500;
@@ -173,13 +275,13 @@
 }
 
 .forgot-link:hover {
-  color: #1d4ed8;
+  color: #1a3a2a;
   text-decoration: underline;
 }
 
 .btn-submit {
   padding: 0.75rem 2rem;
-  background: #2563eb;
+  background: #1a3a2a;
   color: white;
   border: none;
   border-radius: 8px;
@@ -191,7 +293,8 @@
 }
 
 .btn-submit:hover {
-  background: #1d4ed8;
+  background: #c9a84c;
+  color: #1a3a2a;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
 }
@@ -215,7 +318,7 @@
 }
 
 .auth-switch a {
-  color: #2563eb;
+  color: #1a3a2a;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s;
@@ -275,7 +378,7 @@
 .forgot-link:focus-visible,
 .auth-switch a:focus-visible,
 .terms-link:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid #1a3a2a;
   outline-offset: 2px;
   border-radius: 4px;
 }

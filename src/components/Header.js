@@ -1,20 +1,35 @@
 import React from "react";
-import { useAuth } from "./authContext";
-import { useMenu } from "./MenuContext";
-import "./Dashboard2.css";
+import { useAuth } from "../context/authContext";
+import { useMenu } from "../context/MenuContext";
+import { Link } from "react-router";
+
+import Logo from "../img/logo.png";
+
+import "./../pages/Dashboard.css";
 
 const Header = () => {
-  const { logout } = useAuth();
+  const { logout, loggingOut } = useAuth();
   const { mobileMenu, toggleMobileMenu } = useMenu();
 
   const onMobileMenu = () => {
     toggleMobileMenu();
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    logout();
+  const closeMobileMenu = () => {
+    if (mobileMenu) toggleMobileMenu();
   };
+
+  if (loggingOut) {
+    return (
+      <div className="logout-overlay">
+        <div className="logout-card">
+          <div className="logout-spinner" />
+          <p className="logout-message">Signing you out...</p>
+          <span className="logout-sub">See you next time 👋</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="top-header">
@@ -26,9 +41,21 @@ const Header = () => {
         {!mobileMenu ? "☰" : ""}
       </div>
 
-      <button className="logout-btn" onClick={handleSubmit}>
+      <Link to="/">
+        <img src={Logo} alt="Subadex Logo" className="logo" />
+      </Link>
+
+      {/* <div
+        className="mobile-menu-toggle"
+        onClick={closeMobileMenu}
+        aria-label="Close menu"
+      >
+        ✕
+      </div> */}
+
+      {/* <button className="logout-btn" onClick={logout}>
         Logout
-      </button>
+      </button> */}
     </div>
   );
 };

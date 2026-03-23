@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useWallet } from "./walletContext";
+import { useWallet } from "../context/walletContext";
 import { useNavigate } from "react-router-dom";
-import SideBar from "./SideBar";
-import Header from "./Header";
+import SideBar from "../components/SideBar";
+import Header from "../components/Header";
 import "./BuyData.css";
 
 const BuyData = () => {
@@ -54,7 +54,7 @@ const BuyData = () => {
     if (!formData.dataPlan) return null;
 
     return availablePlans.find(
-      (p) => String(p.providerPlanId) === String(formData.dataPlan)
+      (p) => String(p.providerPlanId) === String(formData.dataPlan),
     );
   }, [formData.dataPlan, availablePlans]);
 

@@ -134,7 +134,6 @@ const UpgradeModal = ({
                 <span className="pricing-label">Balance After Upgrade:</span>
                 <span className="pricing-value">
                   ₦{Math.max(0, walletBalance - upgradeFee).toLocaleString()}
-                  0.00
                 </span>
               </div>
             </div>
