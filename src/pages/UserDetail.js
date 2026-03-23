@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useAuth } from "../context/authContext";
@@ -37,22 +37,19 @@ const UserDetail = () => {
   const [walletType, setWalletType] = useState("credit");
   const [walletReason, setWalletReason] = useState("");
 
-  useEffect(() => {
-    getUser(userId);
-    loadTransactions();
-    return () => clearUser();
-  }, [userId]);
-
-  useEffect(() => {
-    if (user) setNewRole(user.role);
-  }, [user]);
-
-  const loadTransactions = async () => {
+  const loadTransactions = useCallback(async () => {
     setTxLoading(true);
     const result = await getUserTransactions(userId);
     if (result.status) setTransactions(result.transactions);
     setTxLoading(false);
-  };
+  }, [getUserTransactions, userId]);
+
+  useEffect(() => {
+    getUser(userId);
+    loadTransactions();
+
+    return () => clearUser();
+  }, [userId, getUser, loadTransactions, clearUser]);
 
   const handleStatusToggle = async () => {
     const result =
