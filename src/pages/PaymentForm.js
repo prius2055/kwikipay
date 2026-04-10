@@ -3,6 +3,7 @@ import { useWallet } from "../context/walletContext";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import { formatCurrency } from "../utils/helperFunctions";
+import { useNavigate } from "react-router-dom";
 import "./PaymentForm.css";
 
 const PaymentForm = () => {
@@ -11,7 +12,16 @@ const PaymentForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const { balance, fundWallet } = useWallet();
+  const navigate = useNavigate();
+
+  // const { balance, fundWallet } = useWallet();
+
+  const { fundWallet, virtualAccounts, accountsLoading, refreshWallet } =
+    useWallet();
+  const balance = virtualAccounts.reduce(
+    (acc, account) => acc + account.balance,
+    0,
+  );
 
   const handleFundWallet = async (e) => {
     e.preventDefault();
@@ -20,30 +30,30 @@ const PaymentForm = () => {
     setLoading(true);
 
     // Validation
-    if (!amount || parseFloat(amount) <= 0) {
-      setError("Please enter a valid amount");
-      return;
-    }
+    // if (!amount || parseFloat(amount) <= 0) {
+    //   setError("Please enter a valid amount");
+    //   return;
+    // }
 
-    if (parseFloat(amount) < 100) {
-      setError("Minimum amount is ₦100");
-      return;
-    }
+    // if (parseFloat(amount) < 100) {
+    //   setError("Minimum amount is ₦100");
+    //   return;
+    // }
 
-    if (parseFloat(amount) > 1000000) {
-      setError("Maximum amount is ₦1,000,000");
-      return;
-    }
+    // if (parseFloat(amount) > 1000000) {
+    //   setError("Maximum amount is ₦1,000,000");
+    //   return;
+    // }
 
-    const result = await fundWallet(parseFloat(amount));
+    const result = await fundWallet();
 
     console.log(result);
 
-    // if (result.status) {
-    //   setLoading(false);
-    //   setError(false);
-    //   navigate("/success", { replace: true });
-    // }
+    if (result.status) {
+      setLoading(false);
+      setError(false);
+      navigate("/success", { replace: true });
+    }
   };
 
   return (
@@ -83,7 +93,7 @@ const PaymentForm = () => {
             {success && <div className="alert alert-success">{success}</div>}
 
             <form onSubmit={handleFundWallet}>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="amount">Amount (₦)</label>
                 <input
                   type="number"
@@ -97,7 +107,7 @@ const PaymentForm = () => {
                 <small className="form-hint">
                   Minimum: ₦100 | Maximum: ₦1,000,000
                 </small>
-              </div>
+              </div> */}
 
               <button type="submit" className="btn-fund" disabled={loading}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">

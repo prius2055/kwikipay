@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import ServiceTable from "../components/ServiceTable";
+import { useNavigate } from "react-router";
 import { useWallet } from "../context/walletContext";
 import { useAuth } from "../context/authContext";
 
@@ -10,6 +11,7 @@ import "./ServiceManagement.css";
 const ServiceManagement = () => {
   const { loading, error, dataPlans, fetchDataPlans } = useWallet();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDataPlans();

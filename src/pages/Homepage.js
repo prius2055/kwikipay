@@ -44,7 +44,7 @@ const Homepage = () => {
     {
       icon: "🚀",
       title: "WE'RE FAST",
-      desc: "Subadex lets you purchase mobile data, top up airtime, pay your cable and electricity bills e.t.c all at the speed of light.",
+      desc: "Awapaya lets you purchase mobile data, top up airtime, pay your cable and electricity bills e.t.c all at the speed of light.",
     },
     {
       icon: "🛡️",
@@ -77,7 +77,7 @@ const Homepage = () => {
     {
       icon: "📱",
       title: "AIRTIME TOPUP",
-      desc: "Making an online recharge has become very easy and safe on Subadex.",
+      desc: "Making an online recharge has become very easy and safe on Awapaya.",
     },
     {
       icon: "💵",
@@ -109,7 +109,7 @@ const Homepage = () => {
       name: "I.T-Guy",
       role: "UI / UX Designer",
       avatar: IT,
-      text: '"This site is great... All thanks to Subadex.com. I can really say that since I joined this site I have been earning more than before..."',
+      text: '"This site is great... All thanks to Awapaya.com. I can really say that since I joined this site I have been earning more than before..."',
     },
     {
       name: "Tenny",
@@ -154,7 +154,7 @@ const Homepage = () => {
       <nav className="nav gradient-bg">
         <div className="nav-container">
           <Link to="/">
-            <img src={Logo} alt="Subadex Logo" className="logo" />
+            <img src={Logo} alt="Awapaya Logo" className="logo" />
           </Link>
 
           {/* Desktop Nav */}
@@ -221,9 +221,9 @@ const Homepage = () => {
       <section id="home" className="hero gradient-bg">
         <div className="hero-container">
           <div className="hero-text">
-            <h1>WELCOME TO Subadex</h1>
+            <h1>WELCOME TO AWAPAYA</h1>
             <p>
-              Subadex is a Telecommunication company. At Subadex, we offer best
+              Awapaya is a Telecommunication company. At Awapaya, we offer best
               deals when it comes to internet Data Plans, Airtime, Bills payment
               like GOTV, DSTV & STARTIMES.
             </p>
@@ -247,7 +247,7 @@ const Homepage = () => {
           <div className="title-underline small"></div>
         </div>
         <p className="section-description">
-          Subadex is a registered telecommunication vendor known for providing
+          Awapaya is a registered telecommunication vendor known for providing
           internet services, airtime VTU, cable TV subscriptions, electricity
           payment.
         </p>
@@ -256,7 +256,7 @@ const Homepage = () => {
             <h3>RELIABLE TELECOMMUNICATION COMPANY</h3>
             <div className="content-underline"></div>
             <p>
-              Subadex also gives people the opportunity of becoming their
+              Awapaya also gives people the opportunity of becoming their
               reseller and be making money on hourly and daily basis so as to
               boost their financial status.
             </p>
@@ -317,7 +317,7 @@ const Homepage = () => {
           <div className="title-underline big"></div>
           <div className="title-underline small"></div>
           <p className="section-description">
-            Here at Subadex our services are completely Fast, Secure &
+            Here at Awapaya our services are completely Fast, Secure &
             Automated. We provide 24/7 Support to our registered users.
           </p>
         </div>
@@ -582,8 +582,8 @@ const Homepage = () => {
           <div className="title-underline big"></div>
           <div className="title-underline small"></div>
           <p>
-            Download Subadex Android app, compatible with all devices. Search
-            for Subadex on playstore or click on the button below to download
+            Download Awapaya Android app, compatible with all devices. Search
+            for Awapaya on playstore or click on the button below to download
             the app on Playstore. Will soon be available on App Store.
           </p>
           <button className="download-btn">available on PLAY STORE</button>
@@ -609,7 +609,7 @@ const Homepage = () => {
           <div className="contact-card">
             <div className="contact-icon">✉️</div>
             <h3>E-mail Address:</h3>
-            <p>info@Subadex.com</p>
+            <p>info@Awapaya.com</p>
           </div>
           <div className="contact-card">
             <div className="contact-icon">📞</div>
@@ -623,9 +623,9 @@ const Homepage = () => {
       <footer className="footer">
         <div className="footer-grid">
           <div className="footer-section">
-            <h3>Subadex</h3>
+            <h3>Awapaya</h3>
             <p>
-              Subadex is a company of Subadex Nigeria Limited. We offer best
+              Awapaya is a company of Awapaya Nigeria Limited. We offer best
               deals when it comes to internet Data Plans, Airtime, Bills payment
               like GOTV, DSTV & STARTIMES.
             </p>
@@ -658,7 +658,7 @@ const Homepage = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>Subadex by Prius2055 Copyright © 2026 All Rights Reserved</p>
+          <p>Awapaya by Prius2055 Copyright © 2026 All Rights Reserved</p>
         </div>
       </footer>
     </div>

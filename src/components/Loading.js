@@ -47,7 +47,7 @@ const Loading = ({ message = 'Loading...', fullScreen = true, size = 'medium' })
           </div>
         </div>
 
-        <p className="spinner-brand">Subadex</p>
+        <p className="spinner-brand">Awapaya</p>
 
         {message && <p className="loading-message">{message}</p>}
 

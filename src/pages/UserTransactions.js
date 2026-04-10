@@ -22,6 +22,8 @@ const UserTransactions = () => {
 
   useEffect(() => {
     const syncTransactions = async () => {
+      const token = localStorage.getItem("token");
+      // console.log(token);
       setLoading(true);
       setError(null);
       try {

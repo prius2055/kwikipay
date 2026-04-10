@@ -18,7 +18,7 @@ import {
 import { useWallet } from "../context/walletContext";
 import { useAuth } from "../context/authContext";
 import { useMenu } from "../context/MenuContext";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { formatCurrency } from "../utils/helperFunctions";
 
 import "./../pages/Dashboard.css";

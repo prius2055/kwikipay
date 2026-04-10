@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/authContext";
 
@@ -15,25 +15,22 @@ const Login = () => {
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  const redirectByRole = useCallback(
-    (role) => {
-      if (role === "marketer") {
-        navigate("/marketer");
-      } else if (role === "superadmin") {
-        navigate("/admin");
-      } else {
-        navigate("/dashboard");
-      }
-    },
-    [navigate],
-  );
-
   // ── Redirect if already logged in ──
   useEffect(() => {
     if (user) {
       redirectByRole(user.role);
     }
-  }, [user, redirectByRole]);
+  }, [user]);
+
+  const redirectByRole = (role) => {
+    if (role === "marketer") {
+      navigate("/marketer");
+    } else if (role === "superadmin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

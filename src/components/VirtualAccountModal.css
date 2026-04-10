@@ -1,0 +1,413 @@
+/* ════════════════════════════════════════════════
+   VirtualAccountModal.css — Subadex Brand
+   #1A3A2A  |  #C9A84C  |  white
+════════════════════════════════════════════════ */
+
+/* ── Overlay ── */
+.vam-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 15, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 1rem;
+  animation: vamFadeIn 0.25s ease-out;
+}
+
+@keyframes vamFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Modal ── */
+.vam-modal {
+  background: #ffffff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow:
+    0 32px 80px rgba(26, 58, 42, 0.22),
+    0 0 0 1px rgba(26, 58, 42, 0.06);
+  animation: vamSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+@keyframes vamSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vam-modal--funded {
+  border-top: 4px solid #1a3a2a;
+}
+
+/* ── Header ── */
+.vam-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 1px solid #eef3ef;
+  background: #1a3a2a;
+}
+
+.vam-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vam-header-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(201, 168, 76, 0.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.vam-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.vam-subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0.2rem 0 0;
+}
+
+.vam-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.vam-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* ── Instruction steps ── */
+.vam-instruction {
+  padding: 1.25rem 1.75rem 0;
+}
+
+.vam-instruction-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f7faf7;
+  border: 1px solid #e2ebe5;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+}
+
+.vam-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #374151;
+  font-weight: 500;
+  flex: 1;
+}
+
+.vam-step-num {
+  width: 22px;
+  height: 22px;
+  background: #1a3a2a;
+  color: #c9a84c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.vam-step-divider {
+  color: #c9a84c;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Account cards ── */
+.vam-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.25rem 1.75rem;
+}
+
+.vam-account-card {
+  background: var(--bank-bg, #f7faf7);
+  border: 1.5px solid
+    color-mix(in srgb, var(--bank-accent, #1a3a2a) 20%, transparent);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.vam-account-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(26, 58, 42, 0.1);
+}
+
+.vam-account-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.vam-bank-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vam-bank-icon {
+  font-size: 1.25rem;
+}
+
+.vam-bank-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bank-accent, #1a3a2a);
+}
+
+.vam-account-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b8f78;
+  background: #ffffff;
+  padding: 0.25rem 0.625rem;
+  border-radius: 20px;
+  border: 1px solid #e2ebe5;
+}
+
+.vam-account-number-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.625rem;
+}
+
+.vam-account-number {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: #1a3a2a;
+  letter-spacing: 1.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.vam-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  background: #1a3a2a;
+  color: #c9a84c;
+  flex-shrink: 0;
+}
+.vam-copy-btn:hover {
+  background: #0f2318;
+  transform: translateY(-1px);
+}
+
+.vam-copy-btn--copied {
+  background: #eaf7ef;
+  color: #1a3a2a;
+  border: 1.5px solid #6ee7b7;
+}
+
+.vam-account-name {
+  font-size: 0.875rem;
+  color: #6b8f78;
+  font-weight: 500;
+}
+
+/* ── Empty / loading state ── */
+.vam-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 2rem;
+  color: #6b8f78;
+  font-size: 1rem;
+}
+
+.vam-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e2ebe5;
+  border-top-color: #1a3a2a;
+  border-radius: 50%;
+  animation: vamSpin 0.7s linear infinite;
+}
+@keyframes vamSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Footer / polling status ── */
+.vam-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  background: #f7faf7;
+  border-top: 1px solid #eef3ef;
+  font-size: 0.875rem;
+  color: #6b8f78;
+  font-weight: 500;
+}
+
+.vam-pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #c9a84c;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: vamPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes vamPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+.vam-note {
+  padding: 0.75rem 1.75rem 1.25rem;
+  font-size: 0.8125rem;
+  color: #92400e;
+  background: #fffbeb;
+  border-top: 1px solid #fef3c7;
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Success state ── */
+.vam-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem;
+  gap: 1rem;
+}
+
+.vam-success-animation {
+  width: 80px;
+  height: 80px;
+}
+
+.vam-checkmark {
+  width: 80px;
+  height: 80px;
+}
+
+.vam-checkmark-circle {
+  stroke: #1a3a2a;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: vamStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.vam-checkmark-check {
+  stroke: #c9a84c;
+  stroke-width: 2;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: vamStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+}
+
+@keyframes vamStroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.vam-success-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a3a2a;
+  margin: 0;
+}
+
+.vam-success-sub {
+  font-size: 1rem;
+  color: #6b8f78;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .vam-modal {
+    border-radius: 14px 14px 0 0;
+    margin-top: auto;
+  }
+  .vam-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .vam-account-number {
+    font-size: 1.375rem;
+  }
+  .vam-instruction-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .vam-step-divider {
+    display: none;
+  }
+}

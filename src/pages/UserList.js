@@ -52,7 +52,7 @@ const UserList = () => {
       fetchUsers();
     }, 500);
     return () => clearTimeout(t);
-  }, [search,fetchUsers]);
+  }, [search]);
 
   /* ── Actions ── */
   const handleAction = async () => {

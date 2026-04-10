@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "../context/authContext";
@@ -7,25 +7,34 @@ import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import UpgradeModal from "../components/UpgradeModal";
 import ServiceTable from "../components/ServiceTable";
+import VirtualAccountModal from "../components/VirtualAccountModal";
 
 import "./Dashboard2.css";
 
 const Dashboard = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [showVirtualAccountModal, setShowVirtualAccountModal] = useState(false);
+
+  const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const { user } = useAuth();
 
   const {
-    loading,
+    // loading,
     balance,
+    fundWallet,
     fetchDataPlans,
     dataPlans,
     totalFunded,
     totalSpent,
     upgradeToReseller,
+    virtualAccounts,
+    verifyWalletFunding,
+    refreshWallet,
   } = useWallet();
-
-  console.log(totalSpent);
 
   const navigate = useNavigate();
 
@@ -167,14 +176,37 @@ const Dashboard = () => {
     },
   ];
 
+  // Stop watching when modal closes
+  const handleCloseVirtualModal = () => {
+    setShowVirtualAccountModal(false);
+  };
+
+  const handleFundWallet = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    const result = await fundWallet();
+
+    if (result.success) {
+      setShowVirtualAccountModal(true);
+    } else {
+      setError(result.message || "Failed to get virtual account.");
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="dashboard-container">
       <SideBar />
       <div className="main-content">
         <Header />
-        <Link to="/funding" className="fund-wallet-btn">
-          Fund Wallet
-        </Link>
+        <form className="fund-wallet-form" onSubmit={handleFundWallet}>
+          <button type="submit" className="fund-wallet-btn" disabled={loading}>
+            {loading ? "Processing..." : "Fund Wallet"}
+          </button>
+        </form>
 
         <div className="content">
           <div className="greeting-section">
@@ -404,6 +436,15 @@ const Dashboard = () => {
         walletBalance={balance}
         upgradeFee={1000}
       />
+
+      {showVirtualAccountModal && (
+        <VirtualAccountModal
+          accounts={virtualAccounts}
+          onClose={handleCloseVirtualModal} // ✅ stops interval on close
+          onBalanceRefresh={refreshWallet} // ✅ modal polls internally too
+          currentBalance={balance} // ✅ modal detects balance change
+        />
+      )}
     </div>
   );
 };

@@ -8,16 +8,16 @@ import Logo from "../img/logo.png";
 import "./../pages/Dashboard.css";
 
 const Header = () => {
-  const { loggingOut } = useAuth();
+  const { logout, loggingOut } = useAuth();
   const { mobileMenu, toggleMobileMenu } = useMenu();
 
   const onMobileMenu = () => {
     toggleMobileMenu();
   };
 
-  // const closeMobileMenu = () => {
-  //   if (mobileMenu) toggleMobileMenu();
-  // };
+  const closeMobileMenu = () => {
+    if (mobileMenu) toggleMobileMenu();
+  };
 
   if (loggingOut) {
     return (
@@ -42,7 +42,7 @@ const Header = () => {
       </div>
 
       <Link to="/">
-        <img src={Logo} alt="Subadex Logo" className="logo" />
+        <img src={Logo} alt="awapaya Logo" className="logo" />
       </Link>
 
       {/* <div

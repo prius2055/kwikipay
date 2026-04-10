@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 
 import "./ResetPassword.css";

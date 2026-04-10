@@ -14,15 +14,20 @@ const EditDataPlanService = () => {
   const [planToEdit, setPlanToEdit] = useState(null);
   const [error, setError] = useState(null);
 
+  // console.log("plan to edit", planToEdit);
+
   const [formData, setFormData] = useState({
     resellerPrice: "",
     sellingPrice: "",
     status: "",
   });
 
+  // const BASE_URL = `http://localhost:5000/api/v1`;
+  // const BASE_URL = `https://vtu-backend-wjn6.onrender.com/api/v1`;
 
   useEffect(() => {
     const fetchServices = async () => {
+      const token = localStorage.getItem("token");
       setLoading(true);
       setError(null);
 
@@ -60,7 +65,7 @@ const EditDataPlanService = () => {
     };
 
     fetchServices();
-  }, [id]);
+  }, [id, BASE_URL]);
 
   useEffect(() => {
     if (planToEdit) {
