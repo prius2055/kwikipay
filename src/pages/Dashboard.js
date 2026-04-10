@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { useAuth } from "../context/authContext";
 import { useWallet } from "../context/walletContext";
@@ -15,10 +15,10 @@ const Dashboard = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showVirtualAccountModal, setShowVirtualAccountModal] = useState(false);
 
-  const [amount, setAmount] = useState("");
+  // const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [setError] = useState("");
+  const [setSuccess] = useState("");
 
   const { user } = useAuth();
 
@@ -32,7 +32,6 @@ const Dashboard = () => {
     totalSpent,
     upgradeToReseller,
     virtualAccounts,
-    verifyWalletFunding,
     refreshWallet,
   } = useWallet();
 

@@ -534,7 +534,6 @@ export const WalletProvider = ({ children }) => {
   const [virtualAccounts, setVirtualAccounts] = useState([]);
   const [accountsLoading, setAccountsLoading] = useState(false);
 
-  const verifyingRef = useRef(false);
   const token = localStorage.getItem("token");
 
   const networkOrder = useMemo(
