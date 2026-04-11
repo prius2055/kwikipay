@@ -39,20 +39,19 @@ const UserDetail = () => {
 
   useEffect(() => {
     getUser(userId);
+    const loadTransactions = async () => {
+      setTxLoading(true);
+      const result = await getUserTransactions(userId);
+      if (result.status) setTransactions(result.transactions);
+      setTxLoading(false);
+    };
     loadTransactions();
     return () => clearUser();
-  }, [userId, getUser, clearUser]);
+  }, [userId, getUser, clearUser, getUserTransactions]);
 
   useEffect(() => {
     if (user) setNewRole(user.role);
   }, [user]);
-
-  const loadTransactions = async () => {
-    setTxLoading(true);
-    const result = await getUserTransactions(userId);
-    if (result.status) setTransactions(result.transactions);
-    setTxLoading(false);
-  };
 
   const handleStatusToggle = async () => {
     const result =

@@ -311,29 +311,32 @@ export const UserProvider = ({ children }) => {
   /* ════════════════════════════════════════════════
      GET USER TRANSACTIONS (admin view)
   ════════════════════════════════════════════════ */
-  const getUserTransactions = async (userId, { page = 1, limit = 20 } = {}) => {
-    try {
-      const params = new URLSearchParams({ page, limit });
-      const response = await fetch(
-        `${BASE_URL}/admin/users/${userId}/transactions?${params}`,
-        { headers: getHeaders(true) },
-      );
+  const getUserTransactions = useCallback(
+    async (userId, { page = 1, limit = 20 } = {}) => {
+      try {
+        const params = new URLSearchParams({ page, limit });
+        const response = await fetch(
+          `${BASE_URL}/admin/users/${userId}/transactions?${params}`,
+          { headers: getHeaders(true) },
+        );
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (response.ok && data.status === "success") {
-        return {
-          status: true,
-          transactions: data.data?.transactions || data.transactions || [],
-          total: data.data?.total || data.total || 0,
-        };
+        if (response.ok && data.status === "success") {
+          return {
+            status: true,
+            transactions: data.data?.transactions || data.transactions || [],
+            total: data.data?.total || data.total || 0,
+          };
+        }
+
+        return { status: false, message: data.message };
+      } catch (error) {
+        return { status: false, message: error.message };
       }
-
-      return { status: false, message: data.message };
-    } catch (error) {
-      return { status: false, message: error.message };
-    }
-  };
+    },
+    [],
+  );
 
   /* ════════════════════════════════════════════════
      SEARCH USERS (lightweight — no pagination state)
