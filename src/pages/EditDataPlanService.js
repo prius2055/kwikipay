@@ -63,7 +63,7 @@ const EditDataPlanService = () => {
     };
 
     fetchServices();
-  }, [id, BASE_URL]);
+  }, [id]);
 
   useEffect(() => {
     if (planToEdit) {

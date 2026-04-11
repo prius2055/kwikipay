@@ -41,7 +41,7 @@ const UserDetail = () => {
     getUser(userId);
     loadTransactions();
     return () => clearUser();
-  }, [userId]);
+  }, [userId, getUser, clearUser]);
 
   useEffect(() => {
     if (user) setNewRole(user.role);

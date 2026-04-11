@@ -81,7 +81,7 @@ const VirtualAccountModal = ({
     }, 10000);
 
     return () => clearInterval(intervalRef.current);
-  }, []);
+  }, [onBalanceRefresh, currentBalance]);
 
   /* ── Detect balance increase → show success ── */
   useEffect(() => {
@@ -109,7 +109,7 @@ const VirtualAccountModal = ({
       });
     }, 1000);
     return () => clearInterval(t);
-  }, [funded]);
+  }, [funded, onClose]);
 
   const copyToClipboard = async (text, index) => {
     try {
