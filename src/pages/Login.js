@@ -84,7 +84,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1 className="auth-brand">Subadex</h1>
+        <h1 className="auth-brand">Awapaya</h1>
         <h2 className="auth-title">Sign In</h2>
 
         <div className="auth-form">
