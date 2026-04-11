@@ -182,8 +182,6 @@ const MarketerDashboard = () => {
         });
         const result = await response.json();
 
-        console.log("Dashboard data:", result);
-
         if (result.status === "success") {
           setStats(result.data.stats);
           setRecentTransactions(result.data.recentTransactions);
