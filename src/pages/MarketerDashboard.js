@@ -182,10 +182,9 @@ const MarketerDashboard = () => {
         });
         const result = await response.json();
 
-        console.log("Dashboard data:", result);
 
         if (result.status === "success") {
-          console.log(result.data);
+       
           setStats(result.data.stats);
           setRecentTransactions(result.data.recentTransactions);
         } else {
