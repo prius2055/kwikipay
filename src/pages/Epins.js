@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router";
 
 import "./Epins.css";
 
@@ -13,11 +12,10 @@ const Epins = () => {
   });
   const [pins, setPins] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [submitting, setSubmitting] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [setSubmitting] = useState(false);
+  const [loading] = useState(false);
   const [error, setError] = useState("");
   const printRef = useRef();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

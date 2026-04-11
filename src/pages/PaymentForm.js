@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import "./PaymentForm.css";
 
 const PaymentForm = () => {
-  const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -16,7 +15,7 @@ const PaymentForm = () => {
 
   // const { balance, fundWallet } = useWallet();
 
-  const { fundWallet, virtualAccounts, accountsLoading, refreshWallet } =
+  const { fundWallet, virtualAccounts} =
     useWallet();
   const balance = virtualAccounts.reduce(
     (acc, account) => acc + account.balance,
@@ -28,22 +27,6 @@ const PaymentForm = () => {
     setError("");
     setSuccess("");
     setLoading(true);
-
-    // Validation
-    // if (!amount || parseFloat(amount) <= 0) {
-    //   setError("Please enter a valid amount");
-    //   return;
-    // }
-
-    // if (parseFloat(amount) < 100) {
-    //   setError("Minimum amount is ₦100");
-    //   return;
-    // }
-
-    // if (parseFloat(amount) > 1000000) {
-    //   setError("Maximum amount is ₦1,000,000");
-    //   return;
-    // }
 
     const result = await fundWallet();
 
