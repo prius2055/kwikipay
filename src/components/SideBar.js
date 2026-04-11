@@ -30,6 +30,8 @@ const SideBar = ({ marketerWalletBalance }) => {
 
   const navigate = useNavigate();
 
+  console.log("marketer balance", marketerWalletBalance);
+
   const displayedBalance =
     marketerWalletBalance !== undefined
       ? marketerWalletBalance

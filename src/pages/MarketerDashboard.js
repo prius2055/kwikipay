@@ -4,9 +4,9 @@ import { MessageCircle, LogOut } from "lucide-react";
 import { useAuth } from "../context/authContext";
 import { BASE_URL, getHeaders } from "../api/api";
 import SideBar from "../components/SideBar";
-
-import "./MarketerDashboard2.css";
 import Header from "../components/Header";
+
+import "./MarketerDashboard.css";
 
 /* ─── Stat Card ─── */
 const StatCard = ({ icon, title, value, sub, color, delay }) => (
@@ -182,9 +182,9 @@ const MarketerDashboard = () => {
         });
         const result = await response.json();
 
+        console.log("Dashboard data:", result);
 
         if (result.status === "success") {
-       
           setStats(result.data.stats);
           setRecentTransactions(result.data.recentTransactions);
         } else {
