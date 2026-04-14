@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageCircle } from "lucide-react";
 import { useAuth } from "../context/authContext";
 import { useWallet } from "../context/walletContext";
 import SideBar from "../components/SideBar";
@@ -9,7 +8,7 @@ import UpgradeModal from "../components/UpgradeModal";
 import ServiceTable from "../components/ServiceTable";
 import VirtualAccountModal from "../components/VirtualAccountModal";
 
-import "./Dashboard2.css";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -422,10 +421,6 @@ const Dashboard = () => {
             loading={loading}
           />
         </div>
-      </div>
-
-      <div className="whatsapp-float">
-        <MessageCircle size={28} />
       </div>
 
       <UpgradeModal

@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
-// import { useNavigate } from "react-router";
-import "./ServiceManagement.css";
+import { BASE_URL, getHeaders } from "../api/api";
 
-// const BASE_URL = "http://localhost:5000";
-const BASE_URL = "https://vtu-backend-wjn6.onrender.com";
+import "./ServiceManagement.css";
 
 const TransactionService = () => {
   const [transactions, setTransactions] = useState([]);
@@ -25,13 +23,9 @@ const TransactionService = () => {
     setError(null);
     try {
       const response = await fetch(
-        `${BASE_URL}/api/v1/admin/transactions?page=${page}&limit=${limit}`,
+        `${BASE_URL}/api/v1/marketer/all?page=${page}&limit=${limit}`,
         {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getHeaders(),
         },
       );
       const result = await response.json();

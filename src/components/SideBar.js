@@ -8,10 +8,8 @@ import {
   DollarSign,
   UserPlus,
   Settings,
-  Code,
   Monitor,
   LogOut,
-  MonitorCog,
   Signal,
   ArrowRightLeft,
 } from "lucide-react";
@@ -29,8 +27,6 @@ const SideBar = ({ marketerWalletBalance }) => {
   const { mobileMenu, toggleMobileMenu } = useMenu();
 
   const navigate = useNavigate();
-
-  console.log("marketer balance", marketerWalletBalance);
 
   const displayedBalance =
     marketerWalletBalance !== undefined
@@ -123,41 +119,27 @@ const SideBar = ({ marketerWalletBalance }) => {
             <span>Settings</span>
           </div>
         )}
+
         {safeRole === "marketer" && (
-          <div className="nav-item">
-            <Code size={20} />
-            <span>Developer's API</span>
+          <div className="admin-nav-links">
+            <NavLink to="/marketer/data" className="nav-item">
+              <Signal size={20} />
+              <span>Edit Price</span>
+            </NavLink>
+
+            <NavLink to="/marketer/transactions" className="nav-item">
+              <ArrowRightLeft size={20} />
+              <span>Transactions</span>
+            </NavLink>
           </div>
         )}
-
         <div className="nav-item" onClick={logout}>
           <LogOut size={20} />
           Logout
         </div>
-
-        {safeRole === "marketer" && (
-          <div className="admin-nav">
-            <div className="admin-nav-header">
-              <MonitorCog size={20} />
-              <h3>Marketer</h3>
-            </div>
-
-            <div className="admin-nav-links">
-              <NavLink to="/marketer/data" className="nav-item">
-                <Signal size={20} />
-                <span>Edit Price</span>
-              </NavLink>
-
-              <NavLink to="/marketer/transactions" className="nav-item">
-                <ArrowRightLeft size={20} />
-                <span>Transactions</span>
-              </NavLink>
-            </div>
-          </div>
-        )}
       </nav>
 
-      <div className="sidebar-footer">Version 7.6</div>
+      <div className="sidebar-footer">Version 1.0</div>
     </div>
   );
 };

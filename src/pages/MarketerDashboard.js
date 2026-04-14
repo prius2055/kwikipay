@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageCircle, LogOut } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useAuth } from "../context/authContext";
+import { useWallet } from "../context/walletContext";
 import { BASE_URL, getHeaders } from "../api/api";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
+import VirtualAccountModal from "../components/VirtualAccountModal";
 
 import "./MarketerDashboard.css";
 
@@ -39,112 +41,111 @@ const QuickLink = ({ icon, label, to, color }) => {
 };
 
 /* ─── Withdrawal Modal ─── */
-const WithdrawalModal = ({ onClose, onSubmit, submitting, error }) => {
-  const [form, setForm] = useState({
-    amount: "",
-    bankName: "",
-    accountNumber: "",
-    accountName: "",
-  });
+// const WithdrawalModal = ({ onClose, onSubmit, submitting, error }) => {
+//   const [form, setForm] = useState({
+//     amount: "",
+//     bankName: "",
+//     accountNumber: "",
+//     accountName: "",
+//   });
 
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+//   const handleChange = (e) => {
+//     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+//   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(form);
-  };
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     onSubmit(form);
+//   };
 
-  return (
-    <div className="md-modal-overlay">
-      <div className="md-modal">
-        <div className="md-modal-header">
-          <h3>Request Withdrawal</h3>
-          <button className="md-modal-close" onClick={onClose}>
-            ✕
-          </button>
-        </div>
+//   return (
+//     <div className="md-modal-overlay">
+//       <div className="md-modal">
+//         <div className="md-modal-header">
+//           <h3>Request Withdrawal</h3>
+//           <button className="md-modal-close" onClick={onClose}>
+//             ✕
+//           </button>
+//         </div>
 
-        {error && <div className="md-modal-error">⚠️ {error}</div>}
+//         {error && <div className="md-modal-error">⚠️ {error}</div>}
 
-        <form onSubmit={handleSubmit} className="md-modal-form">
-          <div className="md-modal-field">
-            <label>Amount (₦)</label>
-            <input
-              type="number"
-              name="amount"
-              value={form.amount}
-              onChange={handleChange}
-              placeholder="Minimum ₦100"
-              min="100"
-              required
-            />
-          </div>
-          <div className="md-modal-field">
-            <label>Bank Name</label>
-            <input
-              type="text"
-              name="bankName"
-              value={form.bankName}
-              onChange={handleChange}
-              placeholder="e.g. First Bank"
-              required
-            />
-          </div>
-          <div className="md-modal-field">
-            <label>Account Number</label>
-            <input
-              type="text"
-              name="accountNumber"
-              value={form.accountNumber}
-              onChange={handleChange}
-              placeholder="10-digit account number"
-              maxLength={10}
-              required
-            />
-          </div>
-          <div className="md-modal-field">
-            <label>Account Name</label>
-            <input
-              type="text"
-              name="accountName"
-              value={form.accountName}
-              onChange={handleChange}
-              placeholder="As on your bank account"
-              required
-            />
-          </div>
-          <div className="md-modal-actions">
-            <button
-              type="button"
-              className="md-btn md-btn-secondary"
-              onClick={onClose}
-              disabled={submitting}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="md-btn md-btn-primary"
-              disabled={submitting}
-            >
-              {submitting ? "Submitting..." : "Submit Request"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
+//         <form onSubmit={handleSubmit} className="md-modal-form">
+//           <div className="md-modal-field">
+//             <label>Amount (₦)</label>
+//             <input
+//               type="number"
+//               name="amount"
+//               value={form.amount}
+//               onChange={handleChange}
+//               placeholder="Minimum ₦100"
+//               min="100"
+//               required
+//             />
+//           </div>
+//           <div className="md-modal-field">
+//             <label>Bank Name</label>
+//             <input
+//               type="text"
+//               name="bankName"
+//               value={form.bankName}
+//               onChange={handleChange}
+//               placeholder="e.g. First Bank"
+//               required
+//             />
+//           </div>
+//           <div className="md-modal-field">
+//             <label>Account Number</label>
+//             <input
+//               type="text"
+//               name="accountNumber"
+//               value={form.accountNumber}
+//               onChange={handleChange}
+//               placeholder="10-digit account number"
+//               maxLength={10}
+//               required
+//             />
+//           </div>
+//           <div className="md-modal-field">
+//             <label>Account Name</label>
+//             <input
+//               type="text"
+//               name="accountName"
+//               value={form.accountName}
+//               onChange={handleChange}
+//               placeholder="As on your bank account"
+//               required
+//             />
+//           </div>
+//           <div className="md-modal-actions">
+//             <button
+//               type="button"
+//               className="md-btn md-btn-secondary"
+//               onClick={onClose}
+//               disabled={submitting}
+//             >
+//               Cancel
+//             </button>
+//             <button
+//               type="submit"
+//               className="md-btn md-btn-primary"
+//               disabled={submitting}
+//             >
+//               {submitting ? "Submitting..." : "Submit Request"}
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
 
 /* ─────────────────────────────────────────────────────────────
  * MARKETER DASHBOARD
  * ───────────────────────────────────────────────────────────── */
 const MarketerDashboard = () => {
-  const { user, logout, loggingOut } = useAuth();
+  const { user, loggingOut } = useAuth();
   const navigate = useNavigate();
-  const verifyingRef = useRef(false);
 
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -159,12 +160,15 @@ const MarketerDashboard = () => {
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [fundingAmount, setFundingAmount] = useState("");
-  const [fundingLoading, setFundingLoading] = useState(false);
-  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [withdrawSubmitting, setWithdrawSubmitting] = useState(false);
-  const [withdrawError, setWithdrawError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+
+  // const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  // const [withdrawSubmitting, setWithdrawSubmitting] = useState(false);
+  // const [withdrawError, setWithdrawError] = useState(null);
+  const [showVirtualAccountModal, setShowVirtualAccountModal] = useState(false);
+
+  const [successMessage] = useState(null);
+
+  const { balance, fundWallet, virtualAccounts, refreshWallet } = useWallet();
 
   const fmt = (n) =>
     new Intl.NumberFormat("en-NG", {
@@ -203,134 +207,99 @@ const MarketerDashboard = () => {
    * When Paystack redirects back to /marketer/dashboard?reference=xxx
    * we verify the payment automatically.
    */
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const reference = params.get("reference");
-    console.log(reference);
-
-    if (reference) {
-      verifyWalletFunding(reference);
-      // Clean up URL so refresh doesn't re-trigger verification
-      window.history.replaceState({}, "", window.location.pathname);
-    }
-  }, []);
 
   /* ── Fund wallet ── */
-  const fundWallet = async () => {
-    if (!fundingAmount || Number(fundingAmount) < 100) {
-      setError("Minimum funding amount is ₦100.");
-      return;
+  // const fundWallet = async () => {
+  //   setFundingLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/marketer/fund`, {
+  //       // ✅ fixed typo
+  //       method: "POST",
+  //       headers: getHeaders(),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (!res.ok || data.status !== "success") {
+  //       throw new Error(data.message || "Payment initialization failed.");
+  //     }
+
+  //     // ✅ Redirect to Paystack checkout
+  //     window.location.href = data.data.authorization_url;
+  //   } catch (err) {
+  //     console.error("Fund wallet error:", err.message);
+  //     setError(err.message);
+  //   } finally {
+  //     setFundingLoading(false);
+  //   }
+  // };
+
+  const handleFundWallet = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    setLoading(true);
+
+    const result = await fundWallet();
+
+    if (result.success) {
+      setShowVirtualAccountModal(true);
+    } else {
+      setError(result.message || "Failed to get virtual account.");
     }
-
-    setFundingLoading(true);
-    setError(null);
-
-    try {
-      const res = await fetch(`${BASE_URL}/marketer/fund`, {
-        // ✅ fixed typo
-        method: "POST",
-        headers: getHeaders(),
-        body: JSON.stringify({ amount: Number(fundingAmount) }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || data.status !== "success") {
-        throw new Error(data.message || "Payment initialization failed.");
-      }
-
-      // ✅ Redirect to Paystack checkout
-      window.location.href = data.data.authorization_url;
-    } catch (err) {
-      console.error("Fund wallet error:", err.message);
-      setError(err.message);
-    } finally {
-      setFundingLoading(false);
-    }
+    setLoading(false);
   };
-
   /* ── Verify wallet funding (called automatically after Paystack redirect) ── */
-  const verifyWalletFunding = async (reference) => {
-    if (verifyingRef.current) return; // ✅ prevent double-call
-    verifyingRef.current = true;
-
-    try {
-      const res = await fetch(
-        `${BASE_URL}/marketer/fund/verify?reference=${reference}`,
-        { headers: getHeaders() },
-      );
-
-      const data = await res.json();
-
-      console.log(data);
-
-      if (!res.ok || data.status !== "success") {
-        throw new Error(data.message || "Verification failed.");
-      }
-
-      // ✅ Update balance in stats
-      setStats((prev) => ({
-        ...prev,
-        fundingBalance: data.data.fundingBalance,
-      }));
-
-      setSuccessMessage("Wallet funded successfully!");
-      setTimeout(() => setSuccessMessage(null), 4000);
-    } catch (err) {
-      console.error("Verify funding error:", err.message);
-      setError(err.message);
-    } finally {
-      verifyingRef.current = false;
-    }
-  };
 
   /* ── Request withdrawal ── */
-  const requestWithdrawal = async ({
-    amount,
-    bankName,
-    accountNumber,
-    accountName,
-  }) => {
-    setWithdrawSubmitting(true);
-    setWithdrawError(null);
+  // const requestWithdrawal = async ({
+  //   amount,
+  //   bankName,
+  //   accountNumber,
+  //   accountName,
+  // }) => {
+  //   setWithdrawSubmitting(true);
+  //   setWithdrawError(null);
 
-    try {
-      const res = await fetch(`${BASE_URL}/marketer/withdraw`, {
-        method: "POST", // ✅ POST not GET
-        headers: getHeaders(),
-        body: JSON.stringify({
-          // ✅ required fields sent
-          amount: Number(amount),
-          bankName,
-          accountNumber,
-          accountName,
-        }),
-      });
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/marketer/withdraw`, {
+  //       method: "POST", // ✅ POST not GET
+  //       headers: getHeaders(),
+  //       body: JSON.stringify({
+  //         // ✅ required fields sent
+  //         amount: Number(amount),
+  //         bankName,
+  //         accountNumber,
+  //         accountName,
+  //       }),
+  //     });
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok || data.status !== "success") {
-        throw new Error(data.message || "Withdrawal request failed.");
-      }
+  //     if (!res.ok || data.status !== "success") {
+  //       throw new Error(data.message || "Withdrawal request failed.");
+  //     }
 
-      // ✅ Update profitBalance in stats
-      setStats((prev) => ({
-        ...prev,
-        profitBalance: data.data.profitBalance,
-      }));
+  //     // ✅ Update profitBalance in stats
+  //     setStats((prev) => ({
+  //       ...prev,
+  //       profitBalance: data.data.profitBalance,
+  //     }));
 
-      setShowWithdrawModal(false);
-      setSuccessMessage(
-        "Withdrawal request submitted. You will be paid within 24 hours.",
-      );
-      setTimeout(() => setSuccessMessage(null), 5000);
-    } catch (err) {
-      console.error("Withdrawal error:", err.message);
-      setWithdrawError(err.message);
-    } finally {
-      setWithdrawSubmitting(false);
-    }
-  };
+  //     setShowWithdrawModal(false);
+  //     setSuccessMessage(
+  //       "Withdrawal request submitted. You will be paid within 24 hours.",
+  //     );
+  //     setTimeout(() => setSuccessMessage(null), 5000);
+  //   } catch (err) {
+  //     console.error("Withdrawal error:", err.message);
+  //     setWithdrawError(err.message);
+  //   } finally {
+  //     setWithdrawSubmitting(false);
+  //   }
+  // };
 
   const statCards = [
     {
@@ -361,7 +330,7 @@ const MarketerDashboard = () => {
       icon: "💸",
       title: "Total Balance",
       value: fmt(stats.totalBalance),
-      sub: "Available to withdraw",
+      sub: "All funds in your account",
       color: "#6366f1",
       delay: "0.2s",
     },
@@ -396,12 +365,12 @@ const MarketerDashboard = () => {
       to: "/marketer/transactions",
       color: "#8b5cf6",
     },
-    {
-      icon: "💸",
-      label: "Withdraw Profit",
-      to: "/marketer/withdrawals",
-      color: "#10b981",
-    },
+    // {
+    //   icon: "💸",
+    //   label: "Withdraw Profit",
+    //   to: "/marketer/withdrawals",
+    //   color: "#10b981",
+    // },
     {
       icon: "📡",
       label: "Data Plans & Pricing",
@@ -414,18 +383,23 @@ const MarketerDashboard = () => {
       to: "/marketer/resellers",
       color: "#ec4899",
     },
-    {
-      icon: "⚙️",
-      label: "Platform Settings",
-      to: "/marketer/settings",
-      color: "#64748b",
-    },
+    // {
+    //   icon: "⚙️",
+    //   label: "Platform Settings",
+    //   to: "/marketer/settings",
+    //   color: "#64748b",
+    // },
   ];
 
   const txStatusColor = {
     success: "#10b981",
     failed: "#ef4444",
     pending: "#f59e0b",
+  };
+
+  // Stop watching when modal closes
+  const handleCloseVirtualModal = () => {
+    setShowVirtualAccountModal(false);
   };
 
   // ✅ Add this at the very top of the return statement
@@ -476,39 +450,25 @@ const MarketerDashboard = () => {
             <div className="md-welcome-actions">
               {/* ── Fund Wallet inline ── */}
               <div className="md-fund-row">
-                <input
-                  type="number"
-                  className="md-fund-input"
-                  placeholder="Amount (₦)"
-                  value={fundingAmount}
-                  onChange={(e) => setFundingAmount(e.target.value)}
-                  min="100"
-                />
                 <button
                   className="md-btn md-btn-primary"
-                  onClick={fundWallet}
-                  disabled={fundingLoading}
+                  onClick={handleFundWallet}
+                  disabled={loading}
                 >
-                  {fundingLoading
-                    ? "Processing..."
-                    : "💳 Fund Wallet with paystack"}
+                  {loading ? "Processing..." : "💳 Fund Wallet"}
                 </button>
               </div>
-              <button
+              {/* <button
                 className="md-btn md-btn-primary"
                 onClick={() => setShowWithdrawModal(true)}
               >
                 💸 Request Withdrawal
-              </button>
+              </button> */}
               <button
                 className="md-btn md-btn-secondary"
                 onClick={() => navigate("/marketer/settings")}
               >
                 ⚙️ Settings
-              </button>
-              <button className="md-btn md-btn-secondary" onClick={logout}>
-                <LogOut size={16} />
-                Logout
               </button>
             </div>
           </div>
@@ -624,12 +584,8 @@ const MarketerDashboard = () => {
         </div>
       </div>
 
-      <div className="whatsapp-float">
-        <MessageCircle size={28} />
-      </div>
-
       {/* ── Withdrawal Modal ── */}
-      {showWithdrawModal && (
+      {/* {showWithdrawModal && (
         <WithdrawalModal
           onClose={() => {
             setShowWithdrawModal(false);
@@ -638,6 +594,15 @@ const MarketerDashboard = () => {
           onSubmit={requestWithdrawal}
           submitting={withdrawSubmitting}
           error={withdrawError}
+        />
+      )} */}
+
+      {showVirtualAccountModal && (
+        <VirtualAccountModal
+          accounts={virtualAccounts}
+          onClose={handleCloseVirtualModal} // ✅ stops interval on close
+          onBalanceRefresh={refreshWallet} // ✅ modal polls internally too
+          currentBalance={balance} // ✅ modal detects balance change
         />
       )}
     </div>
