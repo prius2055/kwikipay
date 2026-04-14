@@ -18,7 +18,6 @@ const TransactionService = () => {
   // const navigate = useNavigate();
 
   const syncTransactions = useCallback(async () => {
-    const token = localStorage.getItem("token");
     setLoading(true);
     setError(null);
     try {

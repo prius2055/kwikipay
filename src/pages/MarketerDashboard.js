@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MessageCircle } from "lucide-react";
 import { useAuth } from "../context/authContext";
 import { useWallet } from "../context/walletContext";
 import { BASE_URL, getHeaders } from "../api/api";
